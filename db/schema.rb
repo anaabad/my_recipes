@@ -14,4 +14,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_210339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "recipes", force: :cascade do |t|
+    t.string "title"
+    t.integer "cook_time"
+    t.integer "prep_time"
+    t.float "ratings"
+    t.string "cuisine"
+    t.string "category"
+    t.string "author"
+    t.string "image"
+    t.string "ingredients"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 end
