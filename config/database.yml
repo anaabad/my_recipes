@@ -57,9 +57,15 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: my_recipes_test
-
+  adapter: postgresql
+  host: <%= ENV["PGHOST"] %>
+  port: <%= ENV["PGPORT"] %>
+  database: <%= ENV["PGDATABASE"] || "my_recipes_test"  %>
+  username: <%= ENV["PGUSER"] ||  Rails.application.credentials.database.username %>
+  password: <%= ENV["PGPASSWORD"] ||  Rails.application.credentials.database.password %>
+  url: <%= ENV['DATABASE_URL'] %>
+  encoding: unicode
+  pool: 5
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.

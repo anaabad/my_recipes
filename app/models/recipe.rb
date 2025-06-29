@@ -1,4 +1,5 @@
 class Recipe < ApplicationRecord
+  puts "🔁 Loading Recipe model"
   scope :only_matching_ingredients, ->(*substrings) {
     regex = substrings.map { |s| Regexp.escape(s) }.join("|")
     where(
