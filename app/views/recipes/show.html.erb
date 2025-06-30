@@ -26,7 +26,7 @@
 
 <h2>Ingredients</h2>
 <ul>
-  <% @recipe.ingredients.split(",").each do |ingredient| %>
+  <% JSON.parse(@recipe.ingredients).each do |ingredient| %>
     <li><%= ingredient %></li>
   <% end %>
 </ul>
