@@ -1,0 +1,51 @@
+<h1>Search recipes</h1>
+
+<!-- Form for adding an ingredient -->
+<%= form_with url: add_ingredient_recipes_path, method: :post, local: true, html: { style: "margin-bottom: 1rem;" } do %>
+  <%= text_field_tag :query, params[:query], placeholder: "Enter ingredient", required: true,
+                     style: "padding: 0.5rem; width: 300px; margin-right: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" %>
+
+
+  <div style="margin-top: 0.75rem;">
+    <%= submit_tag "Add ingredient",
+                   style: "background-color: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;" %>
+  </div>
+<% end %>
+
+<!-- Clear ingredients button -->
+<%= button_to "Clear ingredients",
+              clean_ingredients_recipes_path,
+              method: :post,
+              data: { turbo: false },
+              form: { style: "display: inline-block; margin-bottom: 1.5rem;" },
+              style: "background-color: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;" %>
+
+<!-- Display the list of recipes -->
+<% if @recipes.present? %>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <thead>
+    <tr>
+      <th style="text-align: left; padding: 0.5rem; border-bottom: 2px solid #ddd;">Title</th>
+      <th style="text-align: left; padding: 0.5rem; border-bottom: 2px solid #ddd;">Ratings</th>
+      <th style="padding: 0.5rem; border-bottom: 2px solid #ddd;">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @recipes.each do |recipe| %>
+      <tr>
+        <td style="padding: 0.5rem; border-bottom: 1px solid #eee;"><%= recipe.title %></td>
+        <td style="padding: 0.5rem; border-bottom: 1px solid #eee; color: gold; font-size: 1.2em;"><%= recipe.decorated_rating %> </td>
+        <td style="padding: 0.5rem; border-bottom: 1px solid #eee;">
+          <%= button_to "View details",
+                        recipe_path(recipe),
+                        method: :get,
+                        form: { style: "display: inline" },
+                        style: "background-color: #007bff; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer;" %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No recipes found. Add ingredients to start your search.</p>
+<% end %>
