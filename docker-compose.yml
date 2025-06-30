@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: my_recipes_development
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #image: my-recipes
+    command: bash -c "env && bundle install && bin/rails db:prepare && bin/rails db:seed && bin/rails server -b 0.0.0.0 -p 3000"
+    volumes:
+      - .:/rails/my_recipes
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+      PGHOST: db
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      DATABASE_URL: postgres://postgres:postgres@db:5432/my_recipes_development
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    depends_on:
+      - db
+
+volumes:
+  db_data:
