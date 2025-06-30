@@ -3,7 +3,7 @@ class RecipesController < ApplicationController
   description 'Add a new ingredient'
   param :query, String, desc: 'ingredient to be added to the search'
   def add_ingredient
-    session[:ingredients] ||= []
+    session[:ingredients] ||= Set.new
     session[:ingredients] << params[:query]
     redirect_to :search_recipes
   end
@@ -22,7 +22,7 @@ class RecipesController < ApplicationController
   description 'Search for recipes by ingredients on session'
   def search
     if session[:ingredients]
-      @recipes = Recipe.only_matching_ingredients(*session[:ingredients].uniq).select(:id, :title, :ratings)
+      @recipes = Recipe.only_matching_ingredients(*session[:ingredients]).select(:id, :title, :ratings)
     else
       @recipes = []
     end
