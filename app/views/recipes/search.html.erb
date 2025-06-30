@@ -20,6 +20,7 @@
               form: { style: "display: inline-block; margin-bottom: 1.5rem;" },
               style: "background-color: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;" %>
 
+<p>Ingredients: <%= session[:ingredients].to_a.join(', ') %></p>
 <!-- Display the list of recipes -->
 <% if @recipes.present? %>
   <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
