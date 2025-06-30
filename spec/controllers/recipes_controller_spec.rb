@@ -34,7 +34,7 @@ RSpec.describe RecipesController, type: :controller do
       )
     end
     it "adds query to session and finds matching recipes" do
-      get :search, session: { ingredients: ["flour", "water", "salt", "yeast"] }
+      get :search, session: { ingredients: %w[flour water salt yeast] }
 
       expect(session[:ingredients]).to contain_exactly("flour", "water", "salt", "yeast")
       expect(assigns(:recipes).map(&:title)).to include("Rustic Bread")
@@ -45,6 +45,20 @@ RSpec.describe RecipesController, type: :controller do
       get :search
 
       expect(assigns(:recipes)).to eq([])
+    end
+  end
+  describe "GET #show" do
+    before do
+      Recipe.create!(
+        title: "Tortilla Chips",
+        ingredients: %w[oil flour]
+      )
+    end
+
+    it "gives me the details of the recipe :id" do
+      get :search, params: Recipe.last.id
+
+      expect(assigns(:recipe)).title.must_be()
     end
   end
 end

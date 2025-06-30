@@ -14,16 +14,19 @@ class RecipesController < ApplicationController
     redirect_to :search_recipes
   end
 
+  def show
+    @recipe = Recipe.find(params[:id])
+  end
+
   api :GET, '/recipes/search'
   description 'Search for recipes by ingredients on session'
   def search
     if session[:ingredients]
-      @recipes = Recipe.only_matching_ingredients(*session[:ingredients].uniq)
+      @recipes = Recipe.only_matching_ingredients(*session[:ingredients].uniq).select(:id, :title, :ratings)
     else
       @recipes = []
     end
   end
-
   private
 
   def search_params
