@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= @recipe.title %></title>
+  <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; line-height: 1.6; }
+      .recipe-image { max-width: 100%; height: auto; }
+      .rating span { color: gold; font-size: 1.2em; }
+      ul { list-style-type: disc; padding-left: 1.5rem; }
+  </style>
+</head>
+<body>
+<h1><%= @recipe.title %></h1>
+
+<p><strong>Author:</strong> <%= @recipe.author %></p>
+<p><strong>Category:</strong> <%= @recipe.category %></p>
+<p><strong>Preparation Time:</strong> <%= @recipe.prep_time %> minutes</p>
+<p><strong>Cook Time:</strong> <%= @recipe.cook_time %> minutes</p>
+
+<div class="rating"><strong>Rating:</strong>
+  <span><%= @recipe.decorated_rating %></span>
+</div>
+
+<%= image_tag @recipe.decoded_url , alt: "Image of #{@recipe.title}", class: "recipe-image", width: 400, height: 300 if @recipe.image.present? %>
+
+<h2>Ingredients</h2>
+<ul>
+  <% @recipe.ingredients.split(",").each do |ingredient| %>
+    <li><%= ingredient %></li>
+  <% end %>
+</ul>
+<%= button_to "Back to the list", search_recipes_path, method: :get %>
+</body>
+</html>
